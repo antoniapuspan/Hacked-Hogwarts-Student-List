@@ -7,6 +7,36 @@
     <title>Hogwarts Student List</title>
 </head>
 <body>
-    <script src="script.js"></script>
+    <h1>Class of 1991</h1>
+  <p>
+    House
+    <button class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+    <button class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+    <button class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+    <button class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</button>
+    <button class="filter" id="all" data-action="filter" data-filter="*">all</button>
+  </p>
+
+  <table id="list">
+    <thead>
+      <tr id="sorting">
+        <th data-action="sort" data-sort-direction="asc" data-sort="first-name">First name</th>
+        <th data-action="sort" data-sort-direction="desc" data-sort="last-name">Last Name</th>
+      </tr>
+    </thead>
+    <tbody>
+        <template id="student">
+            <tr>
+              <td data-field="first-name">First Name</td>
+              <td data-field="last-name">Last Name</td>
+              <td data-field="house">House</td>
+              <td data-field="gender">Gender</td>
+            </tr>
+          </template>
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
 </body>
-</html>
+
+</html> 
