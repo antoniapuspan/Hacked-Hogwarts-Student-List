@@ -33,12 +33,5 @@
     border-right: rgb(171, 219, 252) 1px dotted;
   }
   
-  td[data-field=winner]::after {
-    content: "🏆";
-  }
-  
-  td[data-field=winner][data-winner=false]::after {
-    filter: grayscale(1);
-  }
   
   

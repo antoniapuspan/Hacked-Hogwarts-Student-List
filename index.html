@@ -22,19 +22,24 @@
       <tr id="sorting">
         <th data-action="sort" data-sort-direction="asc" data-sort="first-name">First name</th>
         <th data-action="sort" data-sort-direction="desc" data-sort="last-name">Last Name</th>
+        <th data-action="sort" data-sort-direction="desc" data-sort="house">House</th>
+        <th data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</th>
       </tr>
     </thead>
     <tbody>
-        <template id="student">
-            <tr>
-              <td data-field="first-name">First Name</td>
-              <td data-field="last-name">Last Name</td>
-              <td data-field="house">House</td>
-              <td data-field="gender">Gender</td>
-            </tr>
-          </template>
+        <!---Student template will be inserted here via js-->
     </tbody>
+            <template id="student">
+                <tr>
+                  <td data-field="first-name">First Name</td>
+                  <td data-field="last-name">Last Name</td>
+                  <td data-field="house">House</td>
+                  <td data-field="gender">Gender</td>
+                </tr>
+              </template>
   </table>
+
+
 
   <script src="script.js"></script>
 </body>
