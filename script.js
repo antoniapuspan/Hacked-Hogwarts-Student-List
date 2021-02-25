@@ -11,10 +11,17 @@ const Student = {
     gender: "",
 };
 
+const settings = {
+    filter: "all",
+    sortyBy: "name",
+    sortDir: "asc"
+}
+
 function start() {
     console.log("ready");
 
     loadJSON();
+    registerButtons();
 }
 
 async function loadJSON() {
@@ -72,6 +79,15 @@ function prepareObjects(jsonData) {
     displayList(studentData);
 }
 
+function registerButtons() {
+    // document.querySelectorAll("[data-action='filter']")
+    //     .forEach(button => button.addEventListener("click", selectFilter));
+
+
+    document.querySelectorAll("[data-action='sort']")
+        .forEach(button => button.addEventListener("click", selectSort));
+}
+
 function displayList(students) {
     // clear the list
     document.querySelector("#list tbody").innerHTML = "";
@@ -92,7 +108,71 @@ function displayStudent(student) {
 
     // append clone to list
     document.querySelector("#list tbody").appendChild(clone);
-} 
+}
+
+function selectSort(event) {
+    const sortBy = event.target.dataset.sort;
+    const sortDir = event.target.dataset.sortDirection;
+
+    //find "old" sortby element
+    const oldElement = document.querySelector(`[data-sort='${settings.sortyBy}']`);
+    oldElement.classList.remove("sortby");
+
+    //indicate active sort
+    event.target.classList.add("sortby");
+
+    //toggle the direction
+    if (sortDir === "asc") {
+        event.target.dataset.sortDirection = "desc";
+    } else {
+        event.target.dataset.sortDirection = "asc";
+
+    }
+    console.log(`User selected ${sortBy} - ${sortDir}`);
+    setSort(sortBy, sortDir);
+}
+
+function setSort(sortBy, sortDir) {
+    settings.sortBy = sortBy;
+    settings.sortDir = sortDir;
+    buildList();
+}
+
+
+function selectSort(event) {
+    settings.sortBy = event.target.dataset.sort;
+    let filteredList = sortList();
+    displayList(filteredList);
+
+   //toggle the direction
+    if (settings.sortDir === "asc") {
+        settings.sortDir = "desc";
+    } else {
+        settings.sortDir = "asc";
+
+    }
+}
+
+function sortList() {
+    let direction = 1;
+    if (settings.sortDir === "desc") {
+        direction = -1;
+    } else {
+        settings.direction = 1;
+    }
+    console.log(studentData[0], settings.sortBy)
+    let sortedList = studentData.sort(sortByPropriety);
+    
+    function sortByPropriety(studentA, studentB) {
+        if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+            return -1 * direction;
+        } else {
+            return 1 * direction;
+        }
+    }
+
+    return sortedList;
+}
 
 //Removes empty string from array
 function removeEmptyStrFromArr(arr) {
@@ -148,4 +228,11 @@ function lookForMiddleName(arr) {
             middleName: middleName
         }
     }
+}
+
+function buildList() {
+    const currentList = filterList(studentData);
+    const sortedList = sortList(currentList);
+
+    displayList(sortedList);
 }

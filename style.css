@@ -24,7 +24,7 @@
   }
   
   #list tbody tr:nth-child(odd) td {
-    background-color: lightblue;
+    background-color: rgb(224, 224, 224);
     border-right: rgb(240, 249, 255) 1px dotted;
   }
   
