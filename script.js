@@ -413,7 +413,14 @@ function displayModal(student) {
     document.querySelector(".modalContent #modalHouse span").innerHTML = house;
     document.querySelector(".modalContent #blood span").innerHTML = blood;
 
-    
+    //Expell button
+    document.querySelector("#modal button").addEventListener("click", function () {
+        expellStudent(student);
+    });
+
+    var modal = document.getElementById("modal");
+    modal.style.display = "flex"
+}
 
 //Close modal
 function closeModal() {
