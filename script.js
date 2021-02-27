@@ -428,4 +428,43 @@ function closeModal() {
     modal.style.display = "none";
 }
 
+//BLOOD-STATUS
+async function loadJSONBlood() {
+    const response = await fetch("https://petlatkea.dk/2021/hogwarts/families.json");
+    const jsonData = await response.json();
+    console.log(jsonData);
+    // when loaded, prepare data objects
+    prepareBloodObject(jsonData);
+}
+
+function prepareBloodObject(jsonData) {
+    let halfBloodArray = jsonData.half;
+    let pureBloodArray = jsonData.pure;
+
+    console.log(studentData);
+
+    //Calculate blood status
+    studentData.forEach(student => {
+        let isHalfBlood = false;
+        if (halfBloodArray.indexOf(student.lastName) != -1) {
+            isHalfBlood = true;
+        }
+
+        let isPureBlood = false;
+        if (pureBloodArray.indexOf(student.lastName) != -1) {
+            isPureBlood = true;
+        }
+
+        if (isHalfBlood && isPureBlood) {
+            student.bloodStatus = "Pure";
+        } else if (isPureBlood && !isHalfBlood) {
+            student.bloodStatus = "Pure";
+        } else if (!isPureBlood && isHalfBlood) {
+            student.bloodStatus = "Half-blood";
+        } else {
+            student.bloodStatus = "Muggle";
+        }
+    });
+
+    console.log(studentData);
 }
