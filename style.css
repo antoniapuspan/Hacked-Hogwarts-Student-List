@@ -33,5 +33,43 @@
     border-right: rgb(171, 219, 252) 1px dotted;
   }
   
+ /* MODAL STYLING */
+
+#modal {
+   display: none; 
+    position: absolute;
+    height: 25vw;
+    top: 65vh;
+    left: 35vw;
+    width: 20%;
+  }
+  
+  .modalContent {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: brown;
+    padding: 15px;
+    /*  */
+    text-align: center;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .modalStudentName {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
   
   
+  .close {
+    width: 15%;
+    align-content: flex-end;
+  }
+  
+  td[data-field=winnprefecter]::after {
+    content: "🎖️";
+  }
+  
+  td[data-field=prefect][data-prefect=false]::after {
+    filter: grayscale(1);
+  }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,42 +8,58 @@
     <link rel="stylesheet" href="style.css">
     <title>Hogwarts Student List</title>
 </head>
+
 <body>
+
+    <!--Page content-->
     <h1>Class of 1991</h1>
-  <p>
-    House
-    <button class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</button>
-    <button class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
-    <button class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-    <button class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</button>
-    <button class="filter" id="all" data-action="filter" data-filter="*">all</button>
-  </p>
+    <label><input type="text" id="searchBar"/></label>
+    <p>
+        House
+        <button class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+        <button class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+        <button class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+        <button class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</button>
+        <button class="filter" id="all" data-action="filter" data-filter="*">all</button>
+    </p>
 
-  <table id="list">
-    <thead>
-      <tr id="sorting">
-        <th data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</th>
-        <th data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</th>
-        <th data-action="sort" data-sort-direction="desc" data-sort="house">House</th>
-        <th data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</th>
-      </tr>
-    </thead>
-    <tbody>
-        <!---Student template will be inserted here via js-->
-    </tbody>
-            <template id="student">
-                <tr>
-                  <td data-field="first-name">First Name</td>
-                  <td data-field="last-name">Last Name</td>
-                  <td data-field="house">House</td>
-                  <td data-field="gender">Gender</td>
-                </tr>
-              </template>
-  </table>
+    <table id="list">
+        <thead>
+            <tr id="sorting">
+                <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Make prefect</th>
+                <th data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</th>
+                <th data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</th>
+                <th data-action="sort" data-sort-direction="desc" data-sort="house">House</th>
+                <th data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!---Student template will be inserted here via js-->
+        </tbody>
+        <template id="student">
+            <tr>
+                <td data-field="first-name">First Name</td>
+                <td data-field="last-name">Last Name</td>
+                <td data-field="house">House</td>
+                <td data-field="gender">Gender</td>
+            </tr>
+        </template>
+    </table>
 
 
+    <div id="modal">
+        <div class="modalContent">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalStudentName">Student's name: <span></span></div>
+            <div id="modalHouse">House: <span></span></div>
+            <div id="blood">Blood-status: <span></span></div>
+            <button id="expell">Expell student</button>
+            <button id="prefect">Make Prefect</button>
+        </div>
+    </div>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
-</html> 
+</html>

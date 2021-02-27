@@ -2,14 +2,17 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+//Global variables
 const studentData = [];
+const searchBar = document.querySelector("#searchBar");
 
-// The prototype for all students: 
+//The prototype for all students: 
 const Student = {
     firstName: "",
     lastName: "",
     house: "",
     gender: "",
+    prefect: false
 };
 
 const settings = {
@@ -21,7 +24,7 @@ const settings = {
 function start() {
     console.log("ready");
 
-    // TODO: Add event-listeners to filter and sort buttons
+    //Add event-listeners to filter and sort buttons
     document.getElementById("gf").addEventListener("click", prepareGryffindor);
     document.getElementById("hf").addEventListener("click", prepareHufflepuff);
     document.getElementById("rv").addEventListener("click", prepareRavenclaw);
@@ -30,6 +33,7 @@ function start() {
 
     loadJSON();
     registerButtons();
+    loadJSONBlood();
 }
 
 async function loadJSON() {
@@ -44,24 +48,20 @@ function registerButtons() {
     document.querySelectorAll("[data-action='filter']")
         .forEach(button => button.addEventListener("click", selectFilter));
 
-
     document.querySelectorAll("[data-action='sort']")
         .forEach(button => button.addEventListener("click", selectSort));
 }
 
 function prepareObjects(jsonData) {
     jsonData.forEach(jsonObject => {
-        //  console.log("#########")
+
         let nameArray = jsonObject.fullname.split(" ");
         let processedNameArray = removeEmptyStrFromArr(nameArray);
-        // console.log(processedNameArray);
-
         let capitalizedNameArray = [];
         processedNameArray.forEach(name => {
             name = capitalizeFirstLetter(name);
             capitalizedNameArray.push(name);
         })
-        // console.log(capitalizedNameArray);
 
         let firstName = capitalizedNameArray[0];
         let lastName = capitalizedNameArray[capitalizedNameArray.length - 1];
@@ -98,32 +98,36 @@ function prepareObjects(jsonData) {
 
 function displayList(students) {
     console.log(students);
-    // clear the list
+    //clear the list
     document.querySelector("#list tbody").innerHTML = "";
 
-    // build a new list
+    //build a new list
     students.forEach(displayStudent);
 }
 
 function displayStudent(student) {
-    // create clone
+    //create clone
     const clone = document.querySelector("#student").content.cloneNode(true);
 
-    // set clone data
+    //set clone data
     clone.querySelector("[data-field=first-name]").textContent = student.firstName;
     clone.querySelector("[data-field=last-name]").textContent = student.lastName;
     clone.querySelector("[data-field=house]").textContent = student.house;
     clone.querySelector("[data-field=gender]").textContent = student.gender;
 
-    // append clone to list
+    clone.querySelector("tr").setAttribute("onclick", `showModal("${student.firstName}", "${student.lastName}")`)
+
+
+    //append clone to list
     document.querySelector("#list tbody").appendChild(clone);
 }
+
+//Preparing lists for each house
 
 async function loadJSONGryffindor() {
     const response = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
     const jsonData = await response.json();
 
-    // when loaded, prepare data objects
     prepareGryffindor(jsonData);
 }
 
@@ -140,7 +144,7 @@ function prepareGryffindor(jsonData) {
 async function loadJSONHufflePuff() {
     const response = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
     const jsonData = await response.json();
-    // when loaded, prepare data objects
+
     prepareHufflepuff(jsonData);
 }
 
@@ -158,7 +162,6 @@ async function loadJSONRavenclaw() {
     const response = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
     const jsonData = await response.json();
 
-    // when loaded, prepare data objects
     prepareRavenclaw(jsonData);
 }
 
@@ -176,7 +179,6 @@ async function loadJSONSlytherin() {
     const response = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
     const jsonData = await response.json();
 
-    // when loaded, prepare data objects
     prepareSlytherin(jsonData);
 }
 
@@ -190,6 +192,7 @@ function prepareSlytherin(jsonData) {
     displayList(onlySlytherin);
 }
 
+//SELECT A FILTER
 function selectFilter(event) {
     const filter = event.target.dataset.filter;
     console.log(`User selected ${filter}`);
@@ -201,6 +204,7 @@ function setFilter(filter) {
     buildList();
 }
 
+//FILTER LIST FOR EACH HOUSE
 function filteredListFunction(filteredList) {
     if (settings.filter === "gryffindor") {
         filteredList = studentData.filter(isGryffindor);
@@ -217,29 +221,7 @@ function filteredListFunction(filteredList) {
     return filteredList;
 }
 
-// function selectSort(event) {
-//     const sortBy = event.target.dataset.sort;
-//     const sortDir = event.target.dataset.sortDirection;
-
-//     //find "old" sortby element
-//     const oldElement = document.querySelector(`[data-sort='${settings.sortyBy}']`);
-//     oldElement.classList.remove("sortby");
-
-//     //indicate active sort
-//     event.target.classList.add("sortby");
-
-//     //toggle the direction
-//     if (sortDir === "asc") {
-//         event.target.dataset.sortDirection = "desc";
-//     } else {
-//         event.target.dataset.sortDirection = "asc";
-
-//     }
-//     console.log(`User selected ${sortBy} - ${sortDir}`);
-//     setSort(sortBy, sortDir);
-// }
-
-
+//SORT LIST
 
 function selectSort(event) {
     settings.sortBy = event.target.dataset.sort;
@@ -296,6 +278,7 @@ function removeSpaceFromStr(x) {
     return x.replace(" ", "");
 }
 
+//FIRST LETTER UPPERCASE
 function capitalizeFirstLetter(x) {
     let arr = x.split("-");
     if (arr.length > 1) {
@@ -338,6 +321,7 @@ function lookForMiddleName(arr) {
     }
 }
 
+//BUILDING THE NEW LIST
 function buildList() {
     const currentList = filteredListFunction(studentData);
 
@@ -353,7 +337,7 @@ function displayFilteredListFunction(filtered) {
     filtered.forEach(displayStudent);
 }
 
-//gryffindor
+//Gryffindor
 function isGryffindor(student) {
     if (student.house === "Gryffindor") {
         return true;
@@ -362,7 +346,7 @@ function isGryffindor(student) {
     }
 }
 
-//hufflepuff
+//Hufflepuff
 function isHufflepuff(student) {
     if (student.house === "Hufflepuff") {
         return true;
@@ -371,7 +355,7 @@ function isHufflepuff(student) {
     }
 }
 
-//ravenclaw
+//Ravenclaw
 function isRavenclaw(student) {
     if (student.house === "Ravenclaw") {
         return true;
@@ -381,7 +365,7 @@ function isRavenclaw(student) {
 }
 
 
-//slytherin
+//Slytherin
 function isSlytherin(student) {
     if (student.house === "Slytherin") {
         return true;
@@ -398,3 +382,15 @@ function isAllStudents(student) {
         return false;
     }
 }
+
+//Search engine
+searchBar.addEventListener("keyup", (event) => {
+    const searchName = event.target.value.toUpperCase();
+    const searchedStuds = studentData.filter((student) => {
+        return (
+            student.firstName.toUpperCase().includes(searchName) || student.house.includes(searchName)
+        );
+    });
+    displayList(searchedStuds);
+});
+
