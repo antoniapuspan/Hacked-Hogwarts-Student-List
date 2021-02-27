@@ -394,3 +394,31 @@ searchBar.addEventListener("keyup", (event) => {
     displayList(searchedStuds);
 });
 
+// Modal / Pop-up window
+function showModal(fn, ln) {
+    studentData.forEach(student => {
+        if ((student.firstName == fn) && (student.lastName == ln)) {
+            displayModal(student);
+        }
+    })
+}
+
+function displayModal(student) {
+    const name = student.firstName;
+    const house = student.house;
+    const blood = student.bloodStatus;
+
+
+    document.querySelector(".modalContent #modalStudentName span").innerHTML = name;
+    document.querySelector(".modalContent #modalHouse span").innerHTML = house;
+    document.querySelector(".modalContent #blood span").innerHTML = blood;
+
+    
+
+//Close modal
+function closeModal() {
+    var modal = document.getElementById("modal");
+    modal.style.display = "none";
+}
+
+}
