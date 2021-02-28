@@ -76,6 +76,11 @@ tbody {
   overflow-y: scroll;
 }
 
+tr:hover{
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 tbody::-webkit-scrollbar-thumb{
   background-color: red;
 }
@@ -124,7 +129,6 @@ tbody::-webkit-scrollbar-thumb{
   font-size: 20px;
   margin: 20vh 35vw;
   width: 25vw;
-  height: 300px;
   padding: 50px;
 
   border-radius: 10px;
@@ -134,8 +138,14 @@ tbody::-webkit-scrollbar-thumb{
 }
 
 .close {
-  width: 15%;
-  align-content: flex-end;
+  font-size: 40px;
+  height: 10px;
+  transform: translate(-20px, -40px);
+  cursor: pointer;
+}
+
+.close:hover{
+  color: rgb(121, 0, 0);
 }
 
 
