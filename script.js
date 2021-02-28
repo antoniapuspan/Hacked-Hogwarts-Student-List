@@ -446,14 +446,18 @@ function displayModal(student) {
 
     }
 
-    if(student.house != "Slytherin") {
+    if (student.house != "Slytherin") {
         document.querySelector("#inqSquad").classList.add("hide");
         document.querySelector("#inquisitorial-squad").classList.add("hide");
 
-    }else {
-
+    } else {
         document.querySelector("#inqSquad").classList.remove("hide");
         document.querySelector("#inquisitorial-squad").classList.remove("hide");
+        if (student.inqSquad == true) {
+            document.querySelector("#inquisitorial-squad span").innerHTML = "Yes"
+        } else {
+            document.querySelector("#inquisitorial-squad span").innerHTML = "No"
+        }
 
     }
 
@@ -494,10 +498,13 @@ function modalImage(student) {
 
 //Expelling a student
 function expellStudent(student) {
-    studentData.splice(studentData.indexOf(student), 1);
-
-    displayList(studentData);
-    closeModal();
+    if (student.hacker == true) {
+        alert("HA-HA-HA! You cannot expell me!!!")
+    } else {
+        studentData.splice(studentData.indexOf(student), 1);
+        displayList(studentData);
+        closeModal();
+    }
 }
 
 //BLOOD-STATUS
@@ -565,13 +572,36 @@ function prefectStudent(prefStudent) {
 
 function inqSquad(student) {
     console.log(student);
-    if(student.house == "Slytherin") {
-        if(student.bloodStatus == "Pure") {
-            student.inqSquad = true
+    if (student.house == "Slytherin") {
+        if (student.bloodStatus == "Pure") {
+            if(student.inqSquad != true){
+                student.inqSquad = true
+                document.querySelector("#inquisitorial-squad span").innerHTML = "Yes"
+            } else {
+                student.inqSquad = false
+                document.querySelector("#inquisitorial-squad span").innerHTML = "No"
+            }
         } else {
             console.log("Not a pure-blood");
         }
     }
 
 
+}
+
+function hackTheSystem() {
+    let me = {
+        firstName: "Antonia",
+        lastName: "Puspan",
+        middleName: "Elena",
+        nickname: null,
+        house: "Slytherin",
+        gender: "Girl",
+        bloodStatus: "Pure",
+        prefect: false,
+        inqSquad: false,
+        hacker: true
+    }
+    studentData.unshift(me)
+    displayList(studentData)
 }
