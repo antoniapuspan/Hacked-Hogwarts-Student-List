@@ -17,38 +17,37 @@
     <!--Page content-->
     <h1>Hogwarts School of Witchcraft and Wizardry</h1>
     <h2>Class of 1991</h2>
-    <label><input type="text" id="searchBar" placeholder="search" /></label>
-
-    <p>
-        House
+    <div id="searchDiv">
+        <input type="text" id="searchBar" placeholder="search" />
+    </div>
+    <div id="tableFilters">
+        <p id="housePar">House</p>
         <select name="filter" id="filter">
+            <option class="filter" id="all" data-action="filter" data-filter="*" selected>all</option>
             <option class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</option>
             <option class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</option>
             <option class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</option>
             <option class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</option>
-            <option class="filter" id="all" data-action="filter" data-filter="*">all</option>
         </select>
-    </p>
+        <p id="sortByPar">Sort by:</p>
+        <div id="sorting">
+            <button data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</button>
+            <button data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</button>
+            <button data-action="sort" data-sort-direction="desc" data-sort="house">House</button>
+            <button data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</button>
 
+        </div>
+    </div>
     <table id="list">
-        <thead>Sort by:
-            <tr id="sorting">
-                <button data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</button>
-                <button data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</button>
-                <button data-action="sort" data-sort-direction="desc" data-sort="house">House</button>
-                <button data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</button>
-
-            </tr>
-        </thead>
         <tbody>
             <!---Student template will be inserted here via js-->
         </tbody>
         <template id="student">
             <tr>
-                <td data-field="first-name">First Name</td>
-                <td data-field="last-name">Last Name</td>
-                <td data-field="house">House</td>
-                <td data-field="gender">Gender</td>
+                <td class="first-name-column" data-field="first-name">First Name</td>
+                <td class="last-name-column" data-field="last-name">Last Name</td>
+                <td class="house-column" data-field="house">House</td>
+                <td class="gender-column" data-field="gender">Gender</td>
             </tr>
         </template>
     </table>
@@ -56,7 +55,7 @@
     <div id="modal">
         <span class="close" onclick="closeModal()">&times;</span>
         <div>
-            <p class="isPrefect"></p>
+            <img id="prefectIcon" class="notPrefect" src="img/Prefect.webp">
             <img id="img-stud" src="">
             <img class="house-crest" src="">
         </div>
@@ -64,10 +63,11 @@
             <div id="modalStudentName">Student's name: <span></span></div>
             <div id="modalHouse">House: <span></span></div>
             <div id="blood">Blood-status: <span></span></div>
+            <div id="inquisitorial-squad">Inquisitorial squad:<span></span></div>
 
             <button id="expell">Expell student</button>
             <button id="prefect">Make Prefect</button>
-            <button id="inqBtn" class="hide"></button>
+            <button id="inqSquad">Inq. squad</button>
         </div>
     </div>
     <script src="script.js"></script>

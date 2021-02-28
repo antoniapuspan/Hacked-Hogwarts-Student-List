@@ -24,7 +24,7 @@ const settings = {
 }
 
 function start() {
-    console.log("ready");
+    // console.log("ready");
 
     //Add event-listeners to filter and sort buttons
     document.getElementById("gf").addEventListener("click", prepareGryffindor);
@@ -73,6 +73,7 @@ function prepareObjects(jsonData) {
         let houseName = capitalizeFirstLetter(removeSpaceFromStr(jsonObject.house));
         let gender = capitalizeFirstLetter(jsonObject.gender);
 
+
         if (middleAndNickname != undefined) {
             if (middleAndNickname.middleName != "") {
                 middleName = middleAndNickname.middleName;
@@ -90,7 +91,9 @@ function prepareObjects(jsonData) {
             middleName: middleName,
             nickname: nickName,
             house: houseName,
-            gender: gender
+            gender: gender,
+            prefect: false,
+            inqSquad: false
         }
         studentData.push(newStudent);
 
@@ -103,7 +106,7 @@ function prepareObjects(jsonData) {
 
 
 function displayList(students) {
-    console.log(students);
+    // console.log(students);
     //clear the list
     document.querySelector("#list tbody").innerHTML = "";
 
@@ -127,7 +130,7 @@ function displayStudent(student) {
     //append clone to list
     document.querySelector("#list tbody").appendChild(clone);
 
-    
+
 }
 
 //Preparing lists for each house
@@ -203,7 +206,7 @@ function prepareSlytherin(jsonData) {
 //SELECT A FILTER
 function selectFilter(event) {
     const filter = event.target.dataset.filter;
-    console.log(`User selected ${filter}`);
+    // console.log(`User selected ${filter}`);
     setFilter(filter);
 }
 
@@ -241,7 +244,7 @@ function selectSort(event) {
     } else {
         event.target.dataset.sortDirection = "asc";
     }
-    console.log(`User selected ${settings.sortBy} - ${settings.sortDir}`);
+    // console.log(`User selected ${settings.sortBy} - ${settings.sortDir}`);
     setSort(settings.sortBy, settings.sortDir);
 }
 
@@ -414,6 +417,7 @@ function displayModal(student) {
     const name = student.firstName;
     const house = student.house;
     const blood = student.bloodStatus;
+    const isPrefect = student.prefect;
 
     const image = modalImage(student);
 
@@ -423,13 +427,39 @@ function displayModal(student) {
     document.querySelector(".modalContent #blood span").innerHTML = blood;
     document.querySelector("#img-stud").src = `img/${image}`;
     //Expell button
-    document.querySelector("#modal button").addEventListener("click", function () {
+    document.querySelector("#modal #expell").addEventListener("click", function () {
         expellStudent(student);
     });
 
+    document.querySelector("#modal #prefect").addEventListener("click", function () {
+        prefectStudent(student);
+    });
+
+    document.querySelector("#modal #inqSquad").onclick = function () {
+        inqSquad(student);
+    };
+
+    if (isPrefect == true) {
+        document.querySelector("#prefectIcon").classList.add("isPrefect")
+    } else {
+        document.querySelector("#prefectIcon").classList.remove("isPrefect")
+
+    }
+
+    if(student.house != "Slytherin") {
+        document.querySelector("#inqSquad").classList.add("hide");
+        document.querySelector("#inquisitorial-squad").classList.add("hide");
+
+    }else {
+
+        document.querySelector("#inqSquad").classList.remove("hide");
+        document.querySelector("#inquisitorial-squad").classList.remove("hide");
+
+    }
+
     var modal = document.getElementById("modal");
     modal.style.display = "flex";
-    
+
 }
 
 //Close modal
@@ -450,7 +480,7 @@ function modalImage(student) {
         x = student.lastName.toLowerCase() + "_" + student.firstName.substring(0, 1).toLowerCase() + ".png";
     }
 
-    console.log(x);
+    // console.log(x);
     return x;
 
     function sameLastName(comparingStudent) {
@@ -474,7 +504,6 @@ function expellStudent(student) {
 async function loadJSONBlood() {
     const response = await fetch("https://petlatkea.dk/2021/hogwarts/families.json");
     const jsonData = await response.json();
-    console.log(jsonData);
     // when loaded, prepare data objects
     prepareBloodObject(jsonData);
 }
@@ -483,7 +512,7 @@ function prepareBloodObject(jsonData) {
     let halfBloodArray = jsonData.half;
     let pureBloodArray = jsonData.pure;
 
-    console.log(studentData);
+    // console.log(studentData);
 
     //Calculate blood status
     studentData.forEach(student => {
@@ -508,5 +537,41 @@ function prepareBloodObject(jsonData) {
         }
     });
 
-    console.log(studentData);
+    // console.log(studentData);
+}
+
+function prefectStudent(prefStudent) {
+    let prefCheck = true;
+    studentData.forEach(student => {
+        if (student.house == prefStudent.house && student.gender == prefStudent.gender && student.prefect == true) {
+            // console.log("##########", student.firstName, student.lastName, " already prefect");
+            prefCheck = false;
+        } else {
+            // console.log(student.firstName, student.lastName, " not a prefect");
+        }
+        // console.log(prefCheck)
+    });
+    if (prefCheck == true) {
+        studentData.forEach(student => {
+            if (student == prefStudent) {
+                student.prefect = true
+                // console.log(student)
+            }
+        })
+        document.querySelector("#prefectIcon").classList.add("isPrefect");
+    }
+
+}
+
+function inqSquad(student) {
+    console.log(student);
+    if(student.house == "Slytherin") {
+        if(student.bloodStatus == "Pure") {
+            student.inqSquad = true
+        } else {
+            console.log("Not a pure-blood");
+        }
+    }
+
+
 }
