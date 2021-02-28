@@ -12,7 +12,9 @@ const Student = {
     lastName: "",
     house: "",
     gender: "",
-    prefect: false
+    image: "",
+    prefect: false,
+    inqSquad: false
 };
 
 const settings = {
@@ -92,9 +94,13 @@ function prepareObjects(jsonData) {
         }
         studentData.push(newStudent);
 
+
+
     });
     displayList(studentData);
 }
+
+
 
 function displayList(students) {
     console.log(students);
@@ -120,6 +126,8 @@ function displayStudent(student) {
 
     //append clone to list
     document.querySelector("#list tbody").appendChild(clone);
+
+    
 }
 
 //Preparing lists for each house
@@ -308,7 +316,7 @@ function lookForMiddleName(arr) {
             }
         })
         arr.forEach(name => {
-            middleName = middleName + name + " "
+            middleName = middleName + name + " ";
 
         })
         middleName = middleName.substring(0, middleName.length - 1);
@@ -374,7 +382,6 @@ function isSlytherin(student) {
     }
 }
 
-
 function isAllStudents(student) {
     if (student.house === "all") {
         return true;
@@ -408,24 +415,59 @@ function displayModal(student) {
     const house = student.house;
     const blood = student.bloodStatus;
 
+    const image = modalImage(student);
+
 
     document.querySelector(".modalContent #modalStudentName span").innerHTML = name;
     document.querySelector(".modalContent #modalHouse span").innerHTML = house;
     document.querySelector(".modalContent #blood span").innerHTML = blood;
-
+    document.querySelector("#img-stud").src = `img/${image}`;
     //Expell button
     document.querySelector("#modal button").addEventListener("click", function () {
         expellStudent(student);
     });
 
     var modal = document.getElementById("modal");
-    modal.style.display = "flex"
+    modal.style.display = "flex";
+    
 }
 
 //Close modal
 function closeModal() {
     var modal = document.getElementById("modal");
     modal.style.display = "none";
+}
+
+function modalImage(student) {
+    //get image name format
+    student.lastName.toLowerCase() + "_" + student.firstName.substring(0, 1).toLowerCase() + ".png";
+    const lastNameDoubles = studentData.filter(sameLastName);
+    let x = null;
+
+    if (lastNameDoubles.length >= 2) {
+        x = student.lastName.toLowerCase() + "_" + student.firstName.toLowerCase() + ".png";
+    } else {
+        x = student.lastName.toLowerCase() + "_" + student.firstName.substring(0, 1).toLowerCase() + ".png";
+    }
+
+    console.log(x);
+    return x;
+
+    function sameLastName(comparingStudent) {
+        if (student.lastName === comparingStudent.lastName) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+//Expelling a student
+function expellStudent(student) {
+    studentData.splice(studentData.indexOf(student), 1);
+
+    displayList(studentData);
+    closeModal();
 }
 
 //BLOOD-STATUS

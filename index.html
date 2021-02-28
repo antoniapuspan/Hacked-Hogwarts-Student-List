@@ -10,27 +10,34 @@
 </head>
 
 <body>
+    <header>
+        <img id="hog-crest" src="img/Hog-crest.png">
+    </header>
 
     <!--Page content-->
-    <h1>Class of 1991</h1>
-    <label><input type="text" id="searchBar"/></label>
+    <h1>Hogwarts School of Witchcraft and Wizardry</h1>
+    <h2>Class of 1991</h2>
+    <label><input type="text" id="searchBar" placeholder="search" /></label>
+
     <p>
         House
-        <button class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</button>
-        <button class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
-        <button class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-        <button class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</button>
-        <button class="filter" id="all" data-action="filter" data-filter="*">all</button>
+        <select name="filter" id="filter">
+            <option class="filter" id="gf" data-action="filter" data-filter="gryffindor">Gryffindor</option>
+            <option class="filter" id="hf" data-action="filter" data-filter="hufflepuff">Hufflepuff</option>
+            <option class="filter" id="rv" data-action="filter" data-filter="ravenclaw">Ravenclaw</option>
+            <option class="filter" id="sl" data-action="filter" data-filter="slytherin">Slytherin</option>
+            <option class="filter" id="all" data-action="filter" data-filter="*">all</option>
+        </select>
     </p>
 
     <table id="list">
-        <thead>
+        <thead>Sort by:
             <tr id="sorting">
-                <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Make prefect</th>
-                <th data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</th>
-                <th data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</th>
-                <th data-action="sort" data-sort-direction="desc" data-sort="house">House</th>
-                <th data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</th>
+                <button data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</button>
+                <button data-action="sort" data-sort-direction="desc" data-sort="lastName">Last Name</button>
+                <button data-action="sort" data-sort-direction="desc" data-sort="house">House</button>
+                <button data-action="sort" data-sort-direction="desc" data-sort="gender">Gender</button>
+
             </tr>
         </thead>
         <tbody>
@@ -46,19 +53,23 @@
         </template>
     </table>
 
-
     <div id="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div>
+            <p class="isPrefect"></p>
+            <img id="img-stud" src="">
+            <img class="house-crest" src="">
+        </div>
         <div class="modalContent">
-            <span class="close" onclick="closeModal()">&times;</span>
             <div id="modalStudentName">Student's name: <span></span></div>
             <div id="modalHouse">House: <span></span></div>
             <div id="blood">Blood-status: <span></span></div>
+
             <button id="expell">Expell student</button>
             <button id="prefect">Make Prefect</button>
+            <button id="inqBtn" class="hide"></button>
         </div>
     </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 
