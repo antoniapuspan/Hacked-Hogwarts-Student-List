@@ -595,13 +595,13 @@ function hackTheSystem() {
         lastName: "Puspan",
         middleName: "Elena",
         nickname: null,
-        house: "Slytherin",
+        house: "Ravenclaw",
         gender: "Girl",
-        bloodStatus: "Pure",
+        bloodStatus: "Muggle",
         prefect: false,
         inqSquad: false,
         hacker: true
     }
-    studentData.unshift(me)
-    displayList(studentData)
+    studentData.unshift(me);
+    displayList(studentData);
 }

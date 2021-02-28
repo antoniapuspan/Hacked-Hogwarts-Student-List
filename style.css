@@ -162,5 +162,7 @@ button {
   filter: grayscale(0);
 }
 
-
+#img-stud {
+  width: 100px;
+}
 
