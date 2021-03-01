@@ -427,13 +427,13 @@ function displayModal(student) {
     document.querySelector(".modalContent #blood span").innerHTML = blood;
     document.querySelector("#img-stud").src = `img/${image}`;
     //Expell button
-    document.querySelector("#modal #expell").addEventListener("click", function () {
+    document.querySelector("#modal #expell").onclick = function () {
         expellStudent(student);
-    });
+    };
 
-    document.querySelector("#modal #prefect").addEventListener("click", function () {
+    document.querySelector("#modal #prefect").onclick = function () {
         prefectStudent(student);
-    });
+    };
 
     document.querySelector("#modal #inqSquad").onclick = function () {
         inqSquad(student);
@@ -441,10 +441,12 @@ function displayModal(student) {
 
     if (isPrefect == true) {
         document.querySelector("#prefectIcon").classList.add("isPrefect")
+        document.querySelector("#prefect").innerHTML = "Remove Prefect"
     } else {
         document.querySelector("#prefectIcon").classList.remove("isPrefect")
-
+        document.querySelector("#prefect").innerHTML = "Make Prefect"
     }
+
 
     if (student.house != "Slytherin") {
         document.querySelector("#inqSquad").classList.add("hide");
@@ -549,25 +551,31 @@ function prepareBloodObject(jsonData) {
 
 function prefectStudent(prefStudent) {
     let prefCheck = true;
-    studentData.forEach(student => {
-        if (student.house == prefStudent.house && student.gender == prefStudent.gender && student.prefect == true) {
-            // console.log("##########", student.firstName, student.lastName, " already prefect");
-            prefCheck = false;
-        } else {
-            // console.log(student.firstName, student.lastName, " not a prefect");
-        }
-        // console.log(prefCheck)
-    });
-    if (prefCheck == true) {
+    console.log(prefStudent)
+    if(prefStudent.prefect == true){
+        prefStudent.prefect = false;
+        document.querySelector("#prefect").innerHTML = "Make Prefect";
+        document.querySelector("#prefectIcon").classList.remove("isPrefect");
+    } else {
         studentData.forEach(student => {
-            if (student == prefStudent) {
-                student.prefect = true
-                // console.log(student)
+            if (student.house == prefStudent.house && student.gender == prefStudent.gender && student.prefect == true) {
+                prefCheck = false;
+                alert(student.firstName + " " + student.lastName + " is already a " + student.gender.toLowerCase() + " prefect for " + student.house)
             }
-        })
-        document.querySelector("#prefectIcon").classList.add("isPrefect");
+        });
+        if (prefCheck == true) {
+            studentData.forEach(student => {
+                if (student == prefStudent) {
+                    student.prefect = true
+                    document.querySelector("#prefect").innerHTML = "Remove Prefect"
+                    document.querySelector("#prefectIcon").classList.add("isPrefect");
+                }
+            })
+        }
     }
-
+    console.log(prefStudent)
+    console.log("########")
+    
 }
 
 function inqSquad(student) {
