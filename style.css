@@ -117,11 +117,6 @@ tbody::-webkit-scrollbar-thumb{
 
 }
 
-#list tbody tr:nth-child(even) td {
-
-  border-right: rgb(171, 219, 252) 1px dotted;
-}
-
 
 /* MODAL STYLING */
 
