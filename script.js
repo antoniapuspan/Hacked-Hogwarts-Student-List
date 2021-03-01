@@ -96,14 +96,9 @@ function prepareObjects(jsonData) {
             inqSquad: false
         }
         studentData.push(newStudent);
-
-
-
     });
     displayList(studentData);
 }
-
-
 
 function displayList(students) {
     // console.log(students);
@@ -123,7 +118,8 @@ function displayStudent(student) {
     clone.querySelector("[data-field=last-name]").textContent = student.lastName;
     clone.querySelector("[data-field=house]").textContent = student.house;
     clone.querySelector("[data-field=gender]").textContent = student.gender;
-
+    clone.querySelector("[data-field=blood]").textContent = student.bloodStatus;
+console.log(student.bloodStatus);
     clone.querySelector("tr").setAttribute("onclick", `showModal("${student.firstName}", "${student.lastName}")`)
 
 
@@ -414,7 +410,9 @@ function showModal(fn, ln) {
 }
 
 function displayModal(student) {
-    const name = student.firstName;
+    const firstName = student.firstName;
+    const lastName = student.lastName;
+    const middleName = student.middleName;
     const house = student.house;
     const blood = student.bloodStatus;
     const isPrefect = student.prefect;
@@ -422,7 +420,7 @@ function displayModal(student) {
     const image = modalImage(student);
 
 
-    document.querySelector(".modalContent #modalStudentName span").innerHTML = name;
+    document.querySelector(".modalContent #modalStudentName span").innerHTML = firstName + " "  + lastName;
     document.querySelector(".modalContent #modalHouse span").innerHTML = house;
     document.querySelector(".modalContent #blood span").innerHTML = blood;
     document.querySelector("#img-stud").src = `img/${image}`;
@@ -440,11 +438,11 @@ function displayModal(student) {
     };
 
     if (isPrefect == true) {
-        document.querySelector("#prefectIcon").classList.add("isPrefect")
-        document.querySelector("#prefect").innerHTML = "Remove Prefect"
+        document.querySelector("#prefectIcon").classList.add("isPrefect");
+        document.querySelector("#prefect").innerHTML = "Remove Prefect";
     } else {
-        document.querySelector("#prefectIcon").classList.remove("isPrefect")
-        document.querySelector("#prefect").innerHTML = "Make Prefect"
+        document.querySelector("#prefectIcon").classList.remove("isPrefect");
+        document.querySelector("#prefect").innerHTML = "Make Prefect";
     }
 
 
@@ -456,9 +454,9 @@ function displayModal(student) {
         document.querySelector("#inqSquad").classList.remove("hide");
         document.querySelector("#inquisitorial-squad").classList.remove("hide");
         if (student.inqSquad == true) {
-            document.querySelector("#inquisitorial-squad span").innerHTML = "Yes"
+            document.querySelector("#inquisitorial-squad span").innerHTML = "Yes";
         } else {
-            document.querySelector("#inquisitorial-squad span").innerHTML = "No"
+            document.querySelector("#inquisitorial-squad span").innerHTML = "No";
         }
 
     }
@@ -545,10 +543,11 @@ function prepareBloodObject(jsonData) {
             student.bloodStatus = "Muggle";
         }
     });
-
+    displayList(studentData);
     // console.log(studentData);
 }
 
+//PREFECT 
 function prefectStudent(prefStudent) {
     let prefCheck = true;
     console.log(prefStudent)
@@ -560,34 +559,32 @@ function prefectStudent(prefStudent) {
         studentData.forEach(student => {
             if (student.house == prefStudent.house && student.gender == prefStudent.gender && student.prefect == true) {
                 prefCheck = false;
-                alert(student.firstName + " " + student.lastName + " is already a " + student.gender.toLowerCase() + " prefect for " + student.house)
+                alert(student.firstName + " " + student.lastName + " is already a " + student.gender.toLowerCase() + " prefect for " + student.house);
             }
         });
         if (prefCheck == true) {
             studentData.forEach(student => {
                 if (student == prefStudent) {
                     student.prefect = true
-                    document.querySelector("#prefect").innerHTML = "Remove Prefect"
+                    document.querySelector("#prefect").innerHTML = "Remove Prefect";
                     document.querySelector("#prefectIcon").classList.add("isPrefect");
                 }
             })
         }
     }
-    console.log(prefStudent)
-    console.log("########")
-    
 }
 
+//inquisitorial squad
 function inqSquad(student) {
     console.log(student);
     if (student.house == "Slytherin") {
         if (student.bloodStatus == "Pure") {
             if(student.inqSquad != true){
                 student.inqSquad = true
-                document.querySelector("#inquisitorial-squad span").innerHTML = "Yes"
+                document.querySelector("#inquisitorial-squad span").innerHTML = "Yes";
             } else {
                 student.inqSquad = false
-                document.querySelector("#inquisitorial-squad span").innerHTML = "No"
+                document.querySelector("#inquisitorial-squad span").innerHTML = "No";
             }
         } else {
             console.log("Not a pure-blood");
@@ -597,6 +594,7 @@ function inqSquad(student) {
 
 }
 
+//Hacking the system
 function hackTheSystem() {
     let me = {
         firstName: "Antonia",
@@ -610,6 +608,16 @@ function hackTheSystem() {
         inqSquad: false,
         hacker: true
     }
+
+    let bloodTypes = ["Half-blood", "Muggle"];
+    studentData.forEach(student => {
+        console.log(student.bloodStatus)
+        if(student.bloodStatus == "Pure"){
+            student.bloodStatus = bloodTypes[Math.floor(Math.random() * 2)];
+        } else {
+            student.bloodStatus = "Pure";
+        }
+    })
     studentData.unshift(me);
     displayList(studentData);
 }

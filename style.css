@@ -71,7 +71,7 @@ table {
 
 tbody {
   height: 34vw;
-  width: 50%;
+  width: 60%;
   margin: auto;
   overflow-y: scroll;
 }
@@ -85,21 +85,26 @@ tbody::-webkit-scrollbar-thumb{
   background-color: red;
 }
 
-.first-name-column{
-  width: 25%;
+.first-name-column {
+  width: 20%;
 }
 
-.last-name-column{
-  width: 40%;
+.last-name-column  {
+  width: 20%;
 }
 
-.house-column{
-  width: 25%;
+.house-column {
+  width: 20%;
+  text-align: center;
 }
 
-.gender-column{
-  width: 10%;
-  text-align: right;
+.gender-column {
+  width: 20%;
+  text-align: center;
+}
+
+.blood-column {
+  width: 20%;
 }
 
 [data-action] {
@@ -129,7 +134,7 @@ tbody::-webkit-scrollbar-thumb{
   font-size: 20px;
   margin: 20vh 35vw;
   width: 25vw;
-  padding: 50px;
+  padding: 30px;
 
   border-radius: 10px;
   box-shadow: inset 0 -3em 3em rgba(99, 98, 98, 0.1),
